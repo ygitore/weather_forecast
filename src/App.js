@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import axios from 'axios'
+import SearchBar from './SearchBar';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component{
+  state={weatherforecast:[]}
+  weather = (term) =>{
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${term}&appid=6f03413c7fb49d61ed84cd9ef21fdd00`)
+    .then(resp=>resp.json())
+    .then(data=>{
+      console.log(data)
+      this.setState({weatherforecast:data.list})
+    })
+  }
+  render(){
+    return (
+      <div className="App">
+        <SearchBar onFormSubmit={this.weather} />
+        {
+          this.state.weatherforecast.map(w=><li><i>{w.clouds.dt_txt }</i> {w.weather[0].description}</li>)
+        }
+      </div>
+    )
+  }
 }
 
 export default App;
