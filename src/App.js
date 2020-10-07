@@ -24,7 +24,6 @@ class App extends Component{
             return <div className="row">
               <div>{w.weather[0].description}</div>
               <div>{w.dt_txt}</div>
-              <div>{(new Date(w.dt_txt)).getMonth()}</div>
             </div>
           })
         }
